@@ -1,4 +1,5 @@
 <template>
+  <h1>Star Wars Table</h1>
   <planet-modal />
   <search-bar />
   <people-table />
@@ -29,5 +30,7 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+  overflow-x: hidden;
+  width: 100%;
 }
 </style>

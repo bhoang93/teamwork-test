@@ -1,24 +1,29 @@
 <template>
-  <table v-if="people.length > 0" class="people-table">
-    <tr>
-      <th v-on:click="sortByColumn('name')">Name</th>
-      <th v-on:click="sortByColumn('height')">Height</th>
-      <th v-on:click="sortByColumn('mass')">Mass</th>
-      <th v-on:click="sortByColumn('created')">Created</th>
-      <th v-on:click="sortByColumn('edited')">Edited</th>
-      <th v-on:click="sortByColumn('homeworld')">Planet Name</th>
-    </tr>
-    <tr v-for="person in people" :key="person.name">
-      <td>{{ person.name }}</td>
-      <td>{{ person.height }}cm</td>
-      <td>{{ person.mass }}kg</td>
-      <td>{{ formatDate(person.created) }}</td>
-      <td>{{ formatDate(person.edited) }}</td>
-      <td v-on:click="showPlanetModal(person.homeworld)">
-        {{ getPlanetName(person.homeworld) }}
-      </td>
-    </tr>
-  </table>
+  <div class="table-container" v-if="people.length > 0">
+    <table class="people-table">
+      <tr>
+        <th
+          v-on:click="sortByColumn(column)"
+          v-for="column in columns"
+          :key="column"
+        >
+          {{ column }}
+          <span v-if="this.$store.state.lastSort === column"> ▲ </span>
+          <span v-if="this.$store.state.lastAscSort === column"> ▼ </span>
+        </th>
+      </tr>
+      <tr v-for="person in people" :key="person.name">
+        <td>{{ person.name }}</td>
+        <td>{{ person.height }}cm</td>
+        <td>{{ person.mass }}kg</td>
+        <td>{{ formatDate(person.created) }}</td>
+        <td>{{ formatDate(person.edited) }}</td>
+        <td v-on:click="showPlanetModal(person.homeworld)">
+          {{ getPlanetName(person.homeworld) }}
+        </td>
+      </tr>
+    </table>
+  </div>
   <div v-else>
     <p>No results found.</p>
   </div>
@@ -28,6 +33,11 @@
 import { getPlanet } from "../functions.js";
 export default {
   name: "PeopleTable",
+  data() {
+    return {
+      columns: ["name", "height", "mass", "created", "edited", "homeworld"],
+    };
+  },
   computed: {
     people() {
       return this.$store.state.peopleData;
@@ -55,6 +65,13 @@ export default {
 </script>
 
 <style>
+@media screen and (max-width: 600px) {
+  .table-container {
+    width: 100%;
+    overflow-x: scroll;
+  }
+}
+
 table {
   margin: 0 auto;
   max-width: 50%;
@@ -62,12 +79,20 @@ table {
   border: none;
   border-spacing: 0;
   border-collapse: collapse;
+  overflow-x: auto;
+}
+
+@media screen and (max-width: 600px) {
+  table {
+    max-width: 100%;
+  }
 }
 
 th {
   background-color: #000;
   padding: 10px 20px;
   color: #fff;
+  text-transform: capitalize;
 }
 
 .people-table th {

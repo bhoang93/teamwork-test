@@ -54,13 +54,28 @@ export default {
   position: relative;
   background: #fff;
   z-index: 3;
+  max-width: 100%;
+}
+
+.modal table {
+  max-width: 80vw;
 }
 
 .close-btn {
   position: absolute;
-  top: -20px;
+  top: -25px;
   right: 0;
   color: #fff;
   cursor: pointer;
+}
+
+@media screen and (max-width: 600px) {
+  .modal {
+    font-size: 12px;
+  }
+
+  .close-btn {
+    top: -20px;
+  }
 }
 </style>

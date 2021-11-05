@@ -9,6 +9,7 @@ const store = createStore({
     planetList: [],
     nameSearchTerm: null,
     lastSort: null,
+    lastAscSort: null,
     currentPlanet: {},
   },
   mutations: {
@@ -48,7 +49,13 @@ const store = createStore({
       state.peopleData = sortedPeople;
 
       // Reset last sort so that it can be sorted by descending the next time
-      state.lastSort = state.lastSort === sortBy ? null : sortBy;
+      if (state.lastSort === sortBy) {
+        state.lastSort = null;
+        state.lastAscSort = sortBy;
+      } else {
+        state.lastSort = sortBy;
+        state.lastAscSort = null;
+      }
     },
   },
   actions: {
