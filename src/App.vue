@@ -1,17 +1,24 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <planet-modal />
+  <search-bar />
+  <people-table />
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
+import PeopleTable from "./components/PeopleTable.vue";
+import SearchBar from "./components/SearchBar.vue";
+import PlanetModal from "./components/PlanetModal.vue";
 export default {
-  name: 'App',
+  name: "App",
   components: {
-    HelloWorld
-  }
-}
+    PeopleTable,
+    SearchBar,
+    PlanetModal,
+  },
+  mounted() {
+    this.$store.dispatch("fetchPeople");
+  },
+};
 </script>
 
 <style>
